@@ -1,5 +1,5 @@
 {
-  "name": "xarm-printer-test",
+  "name": "3d-keychain-maker-v2",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -31,3 +31,4 @@
     "typescript": "^5"
   }
 }
+
