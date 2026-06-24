@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
   const { data: user, error } = await supabaseAdmin
     .from('availer_logins')
-    .select('id, username, password, is_active')
+    .select('id, username, password_hash, is_active')
     .eq('username', username)
     .single()
 
@@ -19,13 +19,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: 'Invalid username or password' }, { status: 401 })
   }
 
-  const passwordMatch = await bcrypt.compare(password, user.password)
+  const passwordMatch = await bcrypt.compare(password, user.password_hash)
 
   if (!passwordMatch) {
     return NextResponse.json({ ok: false, error: 'Invalid username or password' }, { status: 401 })
   }
 
-  // Update last_login_at if column exists
+  // Update last login timestamp
   await supabaseAdmin
     .from('availer_logins')
     .update({ last_login_at: new Date().toISOString() })
